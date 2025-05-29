@@ -27,7 +27,7 @@ public class CartItemController {
     public ResponseEntity<ApiResponse> addItemToCart(@RequestParam Long productId,
                                                      @RequestParam Integer quantity) {
         try {
-            User user = userService.getUserById(1L);
+            User user = userService.getUserById(4L);
             Cart cart = cartService.initializeCart(user);
             cartItemService.addItemToCart(cart.getId(), productId, quantity);
             return ResponseEntity.ok(new ApiResponse("Add Item Success!", null));

@@ -1,6 +1,7 @@
 package org.example.shoppingbackend.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.shoppingbackend.exceptions.AlreadyExistsException;
 import org.example.shoppingbackend.exceptions.ResourceNotFoundException;
 import org.example.shoppingbackend.model.dto.ProductDto;
 import org.example.shoppingbackend.model.entity.Product;
@@ -13,8 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -47,8 +47,8 @@ public class ProductController {
             Product thProduct = productService.saveProduct(product);
             ProductDto productDto = productService.convertToDto(thProduct);
             return ResponseEntity.ok(new ApiResponse("Add product success!", productDto));
-        } catch (Exception e) {
-            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(), null));
+        } catch (AlreadyExistsException e) {
+            return ResponseEntity.status(CONFLICT).body(new ApiResponse(e.getMessage(), null));
         }
     }
 

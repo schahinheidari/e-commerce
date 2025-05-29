@@ -1,6 +1,7 @@
 package org.example.shoppingbackend.service.product;
 
 import lombok.RequiredArgsConstructor;
+import org.example.shoppingbackend.exceptions.AlreadyExistsException;
 import org.example.shoppingbackend.exceptions.ProductNotFoundException;
 import org.example.shoppingbackend.model.dto.ImageDto;
 import org.example.shoppingbackend.model.dto.ProductDto;
@@ -33,6 +34,10 @@ public class ProductService implements ProductServiceIMPL{
         // if yes, set it as the new product category
         // if no, then save it as a new category
         // the set as the new product category.
+
+        if (productExists(request.getName(), request.getBrand())){
+            throw new AlreadyExistsException(request.getBrand() + " "+ request.getName() + " already exists, you may update this product instead");
+        }
         Category category = Optional.ofNullable(categoryDao.findByName(request.getCategory().getName()))
                 .orElseGet(()-> {
                     Category newCategory = new Category(request.getCategory().getName());
@@ -41,6 +46,10 @@ public class ProductService implements ProductServiceIMPL{
         request.setCategory(category);
 
         return productDao.save(createProduct(request, category));
+    }
+
+    private Boolean productExists(String name, String brand) {
+        return productDao.existsByNameAndBrand(name, brand);
     }
 
     private Product createProduct(SaveProductRequest request, Category category) {
