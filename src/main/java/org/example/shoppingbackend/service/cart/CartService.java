@@ -3,12 +3,14 @@ package org.example.shoppingbackend.service.cart;
 import lombok.RequiredArgsConstructor;
 import org.example.shoppingbackend.exceptions.ResourceNotFoundException;
 import org.example.shoppingbackend.model.entity.Cart;
+import org.example.shoppingbackend.model.entity.User;
 import org.example.shoppingbackend.repository.CartDao;
 import org.example.shoppingbackend.repository.CartItemDao;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Service
@@ -45,11 +47,25 @@ public class CartService implements CartServiceIMPL{
         return cart.getTotalAmount();
     }
 
-    @Override
+/*    @Override
     public Long initializeCart() {
         Cart newCart = new Cart();
         Long newCartId = cartIdGenerator.incrementAndGet();
         newCart.setId(newCartId);
         return cartDao.save(newCart).getId();
+    }*/
+    @Override
+    public Cart initializeCart(User user) {
+        return Optional.ofNullable(getCartByUserId(user.getId()))
+                .orElseGet(() -> {
+                    Cart cart = new Cart();
+                    cart.setUser(user);
+                    return cartDao.save(cart);
+                });
+    }
+
+    @Override
+    public Cart getCartByUserId(Long userId) {
+        return cartDao.findByUserId(userId);
     }
 }

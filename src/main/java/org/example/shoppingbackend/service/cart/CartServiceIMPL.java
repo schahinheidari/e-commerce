@@ -1,6 +1,7 @@
 package org.example.shoppingbackend.service.cart;
 
 import org.example.shoppingbackend.model.entity.Cart;
+import org.example.shoppingbackend.model.entity.User;
 
 import java.math.BigDecimal;
 
@@ -9,5 +10,7 @@ public interface CartServiceIMPL {
     void clearCart(Long id);
     BigDecimal getTotalPrice(Long id);
 
-    Long initializeCart();
+    Cart initializeCart(User user);
+
+    Cart getCartByUserId(Long userId);
 }
