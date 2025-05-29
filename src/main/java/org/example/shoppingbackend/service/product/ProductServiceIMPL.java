@@ -1,5 +1,6 @@
 package org.example.shoppingbackend.service.product;
 
+import org.example.shoppingbackend.model.dto.ProductDto;
 import org.example.shoppingbackend.model.entity.Product;
 import org.example.shoppingbackend.request.ProductUpdateRequest;
 import org.example.shoppingbackend.request.SaveProductRequest;
@@ -18,4 +19,8 @@ public interface ProductServiceIMPL {
     List<Product> getProductsByName(String name);
     List<Product> getProductsByNameAndBrand(String name, String brand);
     Long countProductsByBrandAndName(String brand, String name);
+
+    List<ProductDto> getConvertedProducts(List<Product> products);
+
+    ProductDto convertToDto(Product product);
 }

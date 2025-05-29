@@ -1,5 +1,6 @@
 package org.example.shoppingbackend.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class Category {
         this.name = name;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "category")
     private List<Product> products;
 
