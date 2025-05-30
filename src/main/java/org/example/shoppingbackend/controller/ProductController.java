@@ -10,6 +10,7 @@ import org.example.shoppingbackend.request.SaveProductRequest;
 import org.example.shoppingbackend.response.ApiResponse;
 import org.example.shoppingbackend.service.product.ProductServiceIMPL;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,6 +42,7 @@ public class ProductController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/add")
     public ResponseEntity<ApiResponse> addProduct(@RequestBody SaveProductRequest product) {
         try {
@@ -52,6 +54,7 @@ public class ProductController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/product/{productId}/update")
     public ResponseEntity<ApiResponse> updateProduct(@RequestBody ProductUpdateRequest request, @PathVariable Long productId) {
         try {
@@ -63,6 +66,7 @@ public class ProductController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/product/delete/{productId}")
     public ResponseEntity<ApiResponse> deleteProduct(@PathVariable Long productId) {
         try {

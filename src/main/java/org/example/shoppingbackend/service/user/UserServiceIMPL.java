@@ -12,4 +12,6 @@ public interface UserServiceIMPL {
     void deleteUser(Long id);
 
     UserDto convertUserToUserDto(User user);
+
+    User getAuthenticatedUser();
 }

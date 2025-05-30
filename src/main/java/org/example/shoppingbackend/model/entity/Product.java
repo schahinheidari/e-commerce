@@ -26,7 +26,7 @@ public class Product {
     private String description;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = true)
     private Category category;
 
     @JsonIgnore
